@@ -1,6 +1,7 @@
 import { email, z } from 'zod';
 import { router, publicProcedure } from '../trpc';
 import { inngest } from '@/inngest/client';
+import { AiRouter, aiRouter } from './ai';
 
 export const appRouter = router({
   hello: publicProcedure
@@ -26,6 +27,8 @@ export const appRouter = router({
       eventId: result.ids[0],
     }
     }),
+  // merge the ai router into the app router
+  ai: aiRouter as AiRouter,
 });
 
 // export type definition of API
