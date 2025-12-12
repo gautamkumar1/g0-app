@@ -1,5 +1,6 @@
-import { z } from 'zod';
+import { email, z } from 'zod';
 import { router, publicProcedure } from '../trpc';
+import { inngest } from '@/inngest/client';
 
 export const appRouter = router({
   hello: publicProcedure
@@ -12,6 +13,18 @@ export const appRouter = router({
       return {
         greeting: `Hello ${opts.input.text}`,
       };
+    }),
+  triggerHelloWorld: publicProcedure
+    .input(z.object({ email: z.string() }))
+    .mutation(async ({ input }) => {
+    const result = await inngest.send({
+      name:"test/hello.world",
+      data: {email:input.email}
+    })
+    return {
+      message: "Event sent to inngest",
+      eventId: result.ids[0],
+    }
     }),
 });
 
