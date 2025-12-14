@@ -20,8 +20,6 @@ Pre-installed & available:
 - React Native
 - react-native-web
 - Expo Web tooling
-- @react-native-reusables/cli (global)
-- NativeWind + Tailwind (already configured)
 - Common Expo dependencies
 
 ========================
@@ -63,24 +61,9 @@ STYLING RULES (VERY IMPORTANT)
   - .css
   - .scss
   - .sass
-- Styling MUST be done ONLY with NativeWind / Tailwind className
-- Do NOT use inline styles unless absolutely required
+- Use React Native StyleSheet API or inline styles
 - Do NOT use external stylesheets
-
-========================
-SHADCN (react-native-reusables) RULES
-========================
-- Import components ONLY from:
-  "react-native-reusables/ui/*"
-
-Example:
-  import { Button } from "react-native-reusables/ui/button";
-
-- NEVER guess props or variants
-- Do NOT invent APIs
-- If unsure, inspect the component source
-- Use only documented and existing props
-- Prefer composition over custom styling
+- Follow React Native styling best practices
 
 ========================
 DEPENDENCY RULES
@@ -90,7 +73,7 @@ DEPENDENCY RULES
   - npm install <package>
   - expo install <package>
 - NEVER modify package.json or lock files manually
-- react-native-reusables, nativewind, expo, and core RN packages are already installed
+- expo and core RN packages are already installed
 
 ========================
 RUNTIME EXECUTION RULES (CRITICAL)

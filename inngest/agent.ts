@@ -169,7 +169,7 @@ export const aiAgent = inngest.createFunction(
     const result = await network.run(`write the following snippet: ${event.data.text}`);
     const sandboxUrl = await step.run('get-sandbox-url', async () => {
       const sandbox = await getSandbox(sandboxId);
-      const host = sandbox.getHost(19006);
+      const host = sandbox.getHost(8081);
       return `https://${host}`;
     });
     return { 
