@@ -4,6 +4,7 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
 import { motion } from "framer-motion"
+import { GithubIcon } from "@/components/icons/github"
 
 export default function Navbar() {
   return (
@@ -36,8 +37,8 @@ export default function Navbar() {
         </Link>
 
         {/* Navigation */}
-        <nav className="hidden md:flex items-center gap-8 mx-auto">
-          <NavItem href="#" hasChevron>
+        <nav className="hidden md:flex items-center gap-7 mx-auto text-xs">
+          <NavItem href="#">
             Features
           </NavItem>
           <NavItem href="#">Pricing</NavItem>
@@ -47,19 +48,13 @@ export default function Navbar() {
         </nav>
 
         {/* Actions */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-5">
           <Button
-            variant="secondary"
-            className="rounded-full bg-white px-5 text-sm font-medium text-black hover:bg-white/90"
+            variant="navFill"
           >
-            Log in
+          Sign In
           </Button>
-
-          <Button
-            className="rounded-full bg-zinc-800 px-5 text-sm font-medium text-white hover:bg-zinc-700"
-          >
-            Contact Sales
-          </Button>
+          <GithubIcon className="h-5 w-5 text-zinc-400 hover:text-white transition-colors" />
         </div>
       </div>
     </header>
@@ -69,16 +64,14 @@ export default function Navbar() {
 function NavItem({
   href,
   children,
-  hasChevron = false,
 }: {
   href: string
   children: React.ReactNode
-  hasChevron?: boolean
 }) {  
   return (
     <Link
       href={href}
-      className="group relative flex items-center gap-1 text-sm uppercase tracking-wide text-zinc-400 transition-colors hover:text-white"
+      className="group relative flex items-center gap-1 text-xs tracking-wide text-zinc-400 transition-colors hover:text-white"
     >
       <span className="relative">
         {children}
