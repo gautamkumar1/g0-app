@@ -40,7 +40,7 @@ export default function RootLayout({
         )}
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-black text-white`}
       >
         <ThemeProvider
           attribute="class"
@@ -48,8 +48,27 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <TRPCProvider>
-          <Navbar />
-          {children}</TRPCProvider>
+          <div className="min-h-screen bg-black">
+  {/* TOP BORDER (full width) */}
+  <div className="border-t border-zinc-800/70" />
+
+  {/* NAVBAR ROW */}
+  <div className="border-b border-zinc-800/70">
+    <div className="mx-auto max-w-7xl px-4 border-x border-zinc-800/70">
+      <Navbar />
+    </div>
+  </div>
+
+  {/* PAGE CONTENT */}
+  <div className="mx-auto max-w-7xl px-4 border-x border-zinc-800/70">
+    {children}
+  </div>
+
+  {/* BOTTOM BORDER (optional, full width) */}
+  <div className="border-b border-zinc-800/70" />
+</div>
+
+          </TRPCProvider>
         </ThemeProvider>
       </body>
     </html>

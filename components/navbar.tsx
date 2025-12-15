@@ -7,7 +7,7 @@ import { motion } from "framer-motion"
 
 export default function Navbar() {
   return (
-    <header className="w-full bg-black">
+    <header className="w-full bg-black border-b border-zinc-800/70">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
 
         {/* Logo */}
