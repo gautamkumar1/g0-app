@@ -11,7 +11,7 @@
 # const sandbox = await Sandbox.create('g0-expo-app-v1')
 
 team_id = "633a95c7-a673-4e9a-a2a2-2dadf28c6ae4"
-start_cmd = "/compile_page.sh"
-dockerfile = "sandbox-template/expo/e2b.dockerfile"
+# Template is now built using Template API (see sandbox-template/expo/template.ts)
+# Start command is defined in template.ts
 template_name = "g0-expo-app-v1"
 template_id = "ncrohc4ieijqoq8ag5by"
