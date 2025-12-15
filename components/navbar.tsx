@@ -1,16 +1,21 @@
 "use client"
 
+import * as React from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
 import { motion } from "framer-motion"
 import { GithubIcon } from "@/components/icons/github"
+import { HugeiconsIcon } from "@hugeicons/react"
+import { Menu05Icon } from "@hugeicons/core-free-icons"
+import { SignInButton } from "./sign-button"
 
 export default function Navbar() {
+  const [isOpen, setIsOpen] = React.useState(false)
+
   return (
     <header className="w-full bg-black border-b border-zinc-800/70">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
-
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-3 text-white">
           <motion.div
@@ -36,27 +41,60 @@ export default function Navbar() {
           </motion.div>
         </Link>
 
-        {/* Navigation */}
+        {/* Desktop navigation */}
         <nav className="hidden md:flex items-center gap-7 mx-auto text-xs">
-          <NavItem href="#">
-            Features
-          </NavItem>
+          <NavItem href="#">Features</NavItem>
           <NavItem href="#">Pricing</NavItem>
           <NavItem href="#">Testimonials</NavItem>
           <NavItem href="#">About</NavItem>
           <NavItem href="#">FAQ</NavItem>
         </nav>
 
-        {/* Actions */}
-        <div className="flex items-center gap-5">
-          <Button
-            variant="navFill"
+        {/* Desktop actions */}
+        <div className="hidden md:flex items-center gap-5">
+        <GithubIcon className="h-5 w-5 text-zinc-400 hover:text-white transition-colors" />
+        <SignInButton />
+        
+        </div>
+
+        {/* Mobile actions */}
+        <div className="flex items-center gap-3 md:hidden">
+          <button
+            type="button"
+            onClick={() => setIsOpen((prev) => !prev)}
+            className="inline-flex items-center justify-center rounded-md p-1.5 text-zinc-300 hover:text-white hover:bg-zinc-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-zinc-500 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+            aria-label="Toggle navigation menu"
+            aria-expanded={isOpen}
           >
-          Sign In
-          </Button>
-          <GithubIcon className="h-5 w-5 text-zinc-400 hover:text-white transition-colors" />
+            <HugeiconsIcon icon={Menu05Icon} strokeWidth={2} className="h-6 w-6" />
+          </button>
         </div>
       </div>
+
+      {/* Mobile menu */}
+      {isOpen && (
+        <div className="md:hidden border-t border-zinc-800/70 bg-black/95 backdrop-blur-sm">
+          <nav className="mx-auto flex max-w-7xl flex-col gap-2 px-4 py-4 text-sm">
+            <NavItem href="#">Features</NavItem>
+            <NavItem href="#">Pricing</NavItem>
+            <NavItem href="#">Testimonials</NavItem>
+            <NavItem href="#">About</NavItem>
+            <NavItem href="#">FAQ</NavItem>
+            <div className="mt-4 flex items-center justify-between gap-4 border-t border-zinc-800/70 pt-4">
+              <Link
+                href="#"
+                className="flex items-center gap-2 text-xs text-zinc-400 hover:text-white transition-colors"
+              >
+                <GithubIcon className="h-5 w-5" />
+                <span className="font-mono uppercase tracking-[0.18em]">
+                  Github
+                </span>
+              </Link>
+              <SignInButton />
+            </div>
+          </nav>
+        </div>
+      )}
     </header>
   )
 }
