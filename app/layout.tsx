@@ -4,6 +4,7 @@ import { Geist, Geist_Mono, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { TRPCProvider } from "@/components/providers";
 import { ThemeProvider } from "@/components/theme-provider";
+import Navbar from "@/components/navbar";
 
 const jetbrainsMono = JetBrains_Mono({subsets:['latin'],variable:'--font-sans'});
 
@@ -39,14 +40,35 @@ export default function RootLayout({
         )}
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-black text-white`}
       >
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
           disableTransitionOnChange
         >
-          <TRPCProvider>{children}</TRPCProvider>
+          <TRPCProvider>
+          <div className="min-h-screen bg-black overflow-x-hidden">
+  {/* TOP BORDER (full width) */}
+  <div className="h-[1px] w-full bg-zinc-800/90" />
+
+  {/* NAVBAR ROW */}
+  <div className="border-b-[1px] border-zinc-800/90">
+    <div className="mx-auto max-w-7xl px-4 sm:px-6 border-x-[1px] border-zinc-800/90">
+      <Navbar />
+    </div>
+  </div>
+
+  {/* PAGE CONTENT */}
+  <div className="mx-auto max-w-7xl px-4 sm:px-6 border-x-[1px] border-zinc-800/90 min-h-[calc(100vh-4rem)]">
+    {children}
+  </div>
+
+  {/* BOTTOM BORDER (optional, full width) */}
+  <div className="h-[1px] w-full bg-zinc-800/90" />
+</div>
+
+          </TRPCProvider>
         </ThemeProvider>
       </body>
     </html>
