@@ -9,6 +9,7 @@ import { GithubIcon } from "@/components/icons/github"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { Menu05Icon } from "@hugeicons/core-free-icons"
 import { SignInButton } from "./sign-button"
+import { SignUpButton } from "./signup-button"
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = React.useState(false)
@@ -52,8 +53,10 @@ export default function Navbar() {
 
         {/* Desktop actions */}
         <div className="hidden md:flex items-center gap-5">
-        <GithubIcon className="h-5 w-5 text-zinc-400 hover:text-white transition-colors" />
+        <SignUpButton />
         <SignInButton />
+        <GithubIcon className="h-5 w-5 text-zinc-400 hover:text-white transition-colors" />
+        
         
         </div>
 
@@ -80,6 +83,8 @@ export default function Navbar() {
             <NavItem href="#">Testimonials</NavItem>
             <NavItem href="#">About</NavItem>
             <NavItem href="#">FAQ</NavItem>
+            <SignUpButton />
+              <SignInButton />
             <div className="mt-4 flex items-center justify-between gap-4 border-t border-zinc-800/70 pt-4">
               <Link
                 href="#"
@@ -90,7 +95,7 @@ export default function Navbar() {
                   Github
                 </span>
               </Link>
-              <SignInButton />
+              
             </div>
           </nav>
         </div>
