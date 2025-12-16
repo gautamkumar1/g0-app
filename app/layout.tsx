@@ -48,24 +48,24 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <TRPCProvider>
-          <div className="min-h-screen bg-black">
+          <div className="min-h-screen bg-black overflow-x-hidden">
   {/* TOP BORDER (full width) */}
-  <div className="border-t border-zinc-800/70" />
+  <div className="h-[1px] w-full bg-zinc-800/90" />
 
   {/* NAVBAR ROW */}
-  <div className="border-b border-zinc-800/70">
-    <div className="mx-auto max-w-7xl px-4 border-x border-zinc-800/70">
+  <div className="border-b-[1px] border-zinc-800/90">
+    <div className="mx-auto max-w-7xl px-4 sm:px-6 border-x-[1px] border-zinc-800/90">
       <Navbar />
     </div>
   </div>
 
   {/* PAGE CONTENT */}
-  <div className="mx-auto max-w-7xl px-4 border-x border-zinc-800/70">
+  <div className="mx-auto max-w-7xl px-4 sm:px-6 border-x-[1px] border-zinc-800/90 min-h-[calc(100vh-4rem)]">
     {children}
   </div>
 
   {/* BOTTOM BORDER (optional, full width) */}
-  <div className="border-b border-zinc-800/70" />
+  <div className="h-[1px] w-full bg-zinc-800/90" />
 </div>
 
           </TRPCProvider>
