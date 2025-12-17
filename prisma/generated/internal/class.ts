@@ -20,7 +20,7 @@ const config: runtime.GetPrismaClientConfig = {
   "clientVersion": "7.1.0",
   "engineVersion": "ab635e6b9d606fa5c8fb8b1a7f909c3c3c1c98ba",
   "activeProvider": "postgresql",
-  "inlineSchema": "generator client {\n  provider   = \"prisma-client\"\n  output     = \"./generated\"\n  engineType = \"client\"\n  runtime    = \"bun\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nmodel User {\n  id    Int     @id @default(autoincrement())\n  email String  @unique\n  name  String?\n}\n",
+  "inlineSchema": "generator client {\n  provider   = \"prisma-client\"\n  output     = \"./generated\"\n  engineType = \"client\"\n  runtime    = \"bun\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nenum MessageType {\n  RESULT\n  ERROR\n}\n\nenum MessageRole {\n  USER\n  ASSISTANT\n}\n\nmodel Message {\n  id          String      @id @default(cuid())\n  content     String\n  messageType MessageType\n  role        MessageRole\n  createdAt   DateTime    @default(now())\n  updatedAt   DateTime    @updatedAt\n  fragment    Fragment?\n}\n\nmodel Fragment {\n  id         String   @id @default(cuid())\n  messageId  String   @unique\n  message    Message  @relation(fields: [messageId], references: [id], onDelete: Cascade)\n  sandboxUrl String\n  title      String\n  files      Json\n  createdAt  DateTime @default(now())\n  updatedAt  DateTime @updatedAt\n}\n",
   "runtimeDataModel": {
     "models": {},
     "enums": {},
@@ -28,7 +28,7 @@ const config: runtime.GetPrismaClientConfig = {
   }
 }
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"Message\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"content\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"messageType\",\"kind\":\"enum\",\"type\":\"MessageType\"},{\"name\":\"role\",\"kind\":\"enum\",\"type\":\"MessageRole\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"fragment\",\"kind\":\"object\",\"type\":\"Fragment\",\"relationName\":\"FragmentToMessage\"}],\"dbName\":null},\"Fragment\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"messageId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"message\",\"kind\":\"object\",\"type\":\"Message\",\"relationName\":\"FragmentToMessage\"},{\"name\":\"sandboxUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"files\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
 
 async function decodeBase64AsWasm(wasmBase64: string): Promise<WebAssembly.Module> {
   const { Buffer } = await import('node:buffer')
@@ -58,8 +58,8 @@ export interface PrismaClientConstructor {
    * @example
    * ```
    * const prisma = new PrismaClient()
-   * // Fetch zero or more Users
-   * const users = await prisma.user.findMany()
+   * // Fetch zero or more Messages
+   * const messages = await prisma.message.findMany()
    * ```
    * 
    * Read more in our [docs](https://pris.ly/d/client).
@@ -80,8 +80,8 @@ export interface PrismaClientConstructor {
  * @example
  * ```
  * const prisma = new PrismaClient()
- * // Fetch zero or more Users
- * const users = await prisma.user.findMany()
+ * // Fetch zero or more Messages
+ * const messages = await prisma.message.findMany()
  * ```
  * 
  * Read more in our [docs](https://pris.ly/d/client).
@@ -175,14 +175,24 @@ export interface PrismaClient<
   }>>
 
       /**
-   * `prisma.user`: Exposes CRUD operations for the **User** model.
+   * `prisma.message`: Exposes CRUD operations for the **Message** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more Users
-    * const users = await prisma.user.findMany()
+    * // Fetch zero or more Messages
+    * const messages = await prisma.message.findMany()
     * ```
     */
-  get user(): Prisma.UserDelegate<ExtArgs, { omit: OmitOpts }>;
+  get message(): Prisma.MessageDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.fragment`: Exposes CRUD operations for the **Fragment** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Fragments
+    * const fragments = await prisma.fragment.findMany()
+    * ```
+    */
+  get fragment(): Prisma.FragmentDelegate<ExtArgs, { omit: OmitOpts }>;
 }
 
 export function getPrismaClientClass(): PrismaClientConstructor {

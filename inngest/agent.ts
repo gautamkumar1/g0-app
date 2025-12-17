@@ -5,6 +5,7 @@ import { getSandbox, lastAssistantMessageContent } from "@/utils/e2b";
 import { createTool } from '@inngest/agent-kit';
 import { z } from 'zod';
 import { systemPrompt } from "@/utils/prompt";
+import { prisma } from "@/utils/db";
 export const aiAgent = inngest.createFunction(
   { id: "coder-agent" },
   { event: "ai/coderAgent" },
@@ -172,11 +173,29 @@ export const aiAgent = inngest.createFunction(
       const host = sandbox.getHost(8081);
       return `https://${host}`;
     });
+// save the result to the database
+    await step.run('save-result',async()=>{
+      await prisma.message.create({
+        data:{
+          content: result.state.data.summary,
+          role: "ASSISTANT",
+          messageType: "RESULT",
+          fragment:{
+            create:{
+              sandboxUrl: sandboxUrl,
+              title: "Fragment",
+              files: result.state.data?.files || {},
+            }
+          }
+        }
+      });
+    });
+    
     return { 
       url: sandboxUrl,
       title:"Fragment",
-      files: network.state.data?.files || {},
-      summary: network.state.data?.summary || null,
+      files: result.state.data?.files || {},
+      summary: result.state.data?.summary || null,
      };
   },
 );

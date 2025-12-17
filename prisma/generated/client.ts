@@ -29,8 +29,8 @@ export * from "./enums"
  * @example
  * ```
  * const prisma = new PrismaClient()
- * // Fetch zero or more Users
- * const users = await prisma.user.findMany()
+ * // Fetch zero or more Messages
+ * const messages = await prisma.message.findMany()
  * ```
  * 
  * Read more in our [docs](https://pris.ly/d/client).
@@ -40,7 +40,12 @@ export type PrismaClient<LogOpts extends Prisma.LogLevel = never, OmitOpts exten
 export { Prisma }
 
 /**
- * Model User
+ * Model Message
  * 
  */
-export type User = Prisma.UserModel
+export type Message = Prisma.MessageModel
+/**
+ * Model Fragment
+ * 
+ */
+export type Fragment = Prisma.FragmentModel

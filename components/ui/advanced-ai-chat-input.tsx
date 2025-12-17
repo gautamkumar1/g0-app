@@ -43,7 +43,7 @@ const AdvancedChatInput = React.forwardRef<HTMLDivElement, AdvancedChatInputProp
       isControlled ? textareaProps.value?.toString() || "" : ""
     );
     const { mutate: coderAgent } = trpc.ai.coderAgent.useMutation();
-    
+    const { data: messages } = trpc.message.getMessages.useQuery();
     // Get current value from either controlled or uncontrolled source
     const currentValue = isControlled 
       ? (textareaProps?.value?.toString() || "") 
@@ -148,6 +148,13 @@ const AdvancedChatInput = React.forwardRef<HTMLDivElement, AdvancedChatInputProp
               textareaProps?.className
             )}
           />
+          {messages?.map((message) => (
+            <div key={message.id}>
+              <p>{message.content}</p>
+              <p>{message.role}</p>
+              <p>{message.messageType}</p>
+            </div>
+          ))}
         </div>
 
         {/* Actions and Send Button */}
