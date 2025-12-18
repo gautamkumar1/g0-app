@@ -23,3 +23,13 @@ export const MessageRole = {
 } as const
 
 export type MessageRole = (typeof MessageRole)[keyof typeof MessageRole]
+
+
+export const MessageStatus = {
+  PENDING: 'PENDING',
+  PROCESSING: 'PROCESSING',
+  COMPLETED: 'COMPLETED',
+  FAILED: 'FAILED'
+} as const
+
+export type MessageStatus = (typeof MessageStatus)[keyof typeof MessageStatus]

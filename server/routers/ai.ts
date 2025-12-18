@@ -6,20 +6,48 @@ export const aiRouter = router({
   coderAgent: publicProcedure
     .input(z.object({ text: z.string() }))
     .mutation(async ({ input }) => {
-      // Create message in PENDING state
-      await prisma.message.create({
-        data:{
+      // 1. Create message in PENDING state
+      const message = await prisma.message.create({
+        data: {
           content: input.text,
           role: "USER",
           messageType: "RESULT",
-        }
-      })
-      // send the message to the coder agent
-      const result = await inngest.send({
-        name: "ai/coderAgent",
-        data: { text: input.text },
+          status: "PENDING",
+        },
       });
-      return { result };
+
+      try {
+        // 2. Send event to Inngest
+        console.log("Messagge is created", message);
+        
+        await inngest.send({
+          name: "ai/coderAgent",
+          data: {
+            messageId: message.id,
+            text: input.text,
+          },
+        });
+
+        // 3. Mark as PROCESSING
+        await prisma.message.update({
+          where: { id: message.id },
+          data: { status: "PROCESSING" },
+        });
+
+        return { messageId: message.id };
+
+      }
+      catch (error: any) {
+        // 4. Mark as FAILED (no orphan!)
+        await prisma.message.update({
+          where: { id: message.id },
+          data: {
+            status: "FAILED",
+          },
+        });
+
+        throw new Error("AI processing failed. Try again later.");
+      }
     }),
 });
 export type AiRouter = typeof aiRouter;
